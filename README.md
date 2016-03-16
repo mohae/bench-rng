@@ -25,4 +25,4 @@ Both [dgryski/go-pcgr](https://github.com/dgryski/go-pcgr) and [MichaelTJones/pc
 ### XOR Shift
 Marsaglia, George (July 2003) "Xorshift RNGs", _Journal of Statistical Software_ __8__ (14)  
 
-* github.com/EricLagergren/go-prng/xorshift(https://)
+* github.com/EricLagergren/go-prng/xorshift(https://github.com/EricLagergren/go-prng/xorshift)
