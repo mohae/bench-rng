@@ -26,3 +26,15 @@ Both [dgryski/go-pcgr](https://github.com/dgryski/go-pcgr) and [MichaelTJones/pc
 Marsaglia, George (July 2003) "Xorshift RNGs", _Journal of Statistical Software_ __8__ (14)  
 
 * [github.com/EricLagergren/go-prng/xorshift](https://github.com/EricLagergren/go-prng/xorshift)
+
+### Results
+Name|Operations|Ns/Op|Bytes/Op|Allocs/Op  
+:--|--:|--:|--:|--:  
+math/rand|50000000|24|0|0  
+crypto/rand|2000000|952|88|3  
+dgryski/go-pcgr|200000000|8|0|0  
+MichaelTJones/pcg|200000000|8|0|0  
+bszcz/mt19937_64|50000000|25|0|0  
+EricLagergren/go-prng/mersenne_twister_64|100000000|10|0|0  
+seehuhn/mt19937|200000000|8|0|0  
+EricLagergren/go-prng/xorshift|300000000|4|0|0  
