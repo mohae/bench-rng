@@ -1,7 +1,7 @@
 # bench-rng
 benchmarks for Go RNG implementations
 
-A simple benchmark for some RNG implementations in Go.  If you need a CSPRNG, use `crypto/rand`.  Sometimes a PRNG is good enough.
+A simple benchmark of some RNG implementations in Go.  This only tests obtaining random `int64` or `uint64` values, depending on what the function call for each algorithm returns.  If you need a CSPRNG, use `crypto/rand`; sometimes a PRNG is good enough.
 
 ## Algorithms
 
@@ -19,10 +19,10 @@ Developed by Takuji Nishimura and Makoto Matsumoto: http://www.math.sci.hiroshim
 ### PCG
 Both [dgryski/go-pcgr](https://github.com/dgryski/go-pcgr) and [MichaelTJones/pcg](https://github.com/dgryski/pcg) are implementations of Melissa O'Neills [PCG psuedo random number generator](http://www.pcg-random.org).  IMO, the decision on which to use should be based on which API best suits your use case.
 
-* [github.com/dgryski/go-pcgr](https://)
+* [github.com/dgryski/go-pcgr](https://github.com/dgryski/go-pcgr)
 * [github.com/MichaelTJones/pcg](https://github.com/MichaelTJones/pcg)
 
 ### XOR Shift
 Marsaglia, George (July 2003) "Xorshift RNGs", _Journal of Statistical Software_ __8__ (14)  
 
-* github.com/EricLagergren/go-prng/xorshift(https://)
+* [github.com/EricLagergren/go-prng/xorshift](https://github.com/EricLagergren/go-prng/xorshift)
