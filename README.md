@@ -3,6 +3,8 @@ benchmarks for Go RNG implementations
 
 A simple benchmark of some RNG implementations in Go.  This only tests obtaining random `int64` or `uint64` values, depending on what the function call for each algorithm returns.  If you need a CSPRNG, use `crypto/rand`; sometimes a PRNG is good enough.
 
+Choose the library that best fits your requirements.  Please make sure you are aware of the pros and cons of the chosen prng algorithm and how that will affect your library or application.
+
 ## Algorithms
 
 ### Std Lib
