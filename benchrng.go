@@ -2,6 +2,7 @@ package main
 
 import (
 	c "crypto/rand"
+	"fmt"
 	"math/big"
 	m "math/rand"
 	"testing"
@@ -27,7 +28,7 @@ func CryptoRand(b *testing.B) {
 }
 
 func BenchCryptoRand() benchutil.Bench {
-	bench := benchutil.Bench{Name: "crypto/rand"}
+	bench := benchutil.NewBench("crypto/rand")
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(CryptoRand))
 	return bench
 }
@@ -44,8 +45,9 @@ func MathRand(b *testing.B) {
 }
 
 func BenchMathRand() benchutil.Bench {
-	bench := benchutil.Bench{Name: "math/rand"}
+	bench := benchutil.NewBench("math/rand")
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MathRand))
+	fmt.Printf("%#v\n", bench.Result)
 	return bench
 }
 
@@ -62,7 +64,7 @@ func DgryskiGoPCGR(b *testing.B) {
 }
 
 func BenchDgryskiGoPCGR() benchutil.Bench {
-	bench := benchutil.Bench{Name: "dgryski/go-pcgr"}
+	bench := benchutil.NewBench("dgryski/go-pcgr")
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(DgryskiGoPCGR))
 	return bench
 }
@@ -80,7 +82,7 @@ func MichaelTJonesPCG(b *testing.B) {
 }
 
 func BenchMichaelTJonesPCG() benchutil.Bench {
-	bench := benchutil.Bench{Name: "MichaelTJones/pcg"}
+	bench := benchutil.NewBench("MichaelTJones/pcg")
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MichaelTJonesPCG))
 	return bench
 }
@@ -98,7 +100,7 @@ func BszczMT64(b *testing.B) {
 }
 
 func BenchBszczMT64() benchutil.Bench {
-	bench := benchutil.Bench{Name: "bszcz/mt19937_64"}
+	bench := benchutil.NewBench("bszcz/mt19937_64")
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(BszczMT64))
 	return bench
 }
@@ -115,7 +117,7 @@ func EricLagergrenMT64(b *testing.B) {
 }
 
 func BenchEricLagergrenMT64() benchutil.Bench {
-	bench := benchutil.Bench{Name: "EricLagergren/go-prng/mersenne_twister_64"}
+	bench := benchutil.NewBench("EricLagergren/go-prng/mersenne_twister_64")
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(EricLagergrenMT64))
 	return bench
 }
@@ -133,7 +135,7 @@ func SeehuhnMT64(b *testing.B) {
 }
 
 func BenchSeehuhnMT64() benchutil.Bench {
-	bench := benchutil.Bench{Name: "seehuhn/mt19937"}
+	bench := benchutil.NewBench("seehuhn/mt19937")
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(SeehuhnMT64))
 	return bench
 }
@@ -151,7 +153,7 @@ func EricLagergrenXORShift(b *testing.B) {
 }
 
 func BenchEricLagergrenXORShift() benchutil.Bench {
-	bench := benchutil.Bench{Name: "EricLagergren/go-prng/xorshift"}
+	bench := benchutil.NewBench("EricLagergren/go-prng/xorshift")
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(EricLagergrenXORShift))
 	return bench
 }

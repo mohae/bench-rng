@@ -56,28 +56,28 @@ func main() {
 	}
 
 	b := BenchMathRand()
-	bench.Add(b)
+	bench.Append(b)
 
 	b = BenchCryptoRand()
-	bench.Add(b)
+	bench.Append(b)
 
 	b = BenchDgryskiGoPCGR()
-	bench.Add(b)
+	bench.Append(b)
 
 	b = BenchMichaelTJonesPCG()
-	bench.Add(b)
+	bench.Append(b)
 
 	b = BenchBszczMT64()
-	bench.Add(b)
+	bench.Append(b)
 
 	b = BenchEricLagergrenMT64()
-	bench.Add(b)
+	bench.Append(b)
 
 	b = BenchSeehuhnMT64()
-	bench.Add(b)
+	bench.Append(b)
 
 	b = BenchEricLagergrenXORShift()
-	bench.Add(b)
+	bench.Append(b)
 
 	fmt.Println("")
 	fmt.Println("generating output...")
