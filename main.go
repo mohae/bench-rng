@@ -76,7 +76,25 @@ func main() {
 	b = BenchSeehuhnMT64()
 	bench.Append(b)
 
-	b = BenchEricLagergrenXORShift()
+	b = BenchEricLagergrenXORShift64Star()
+	bench.Append(b)
+
+	b = BenchLazyBeaverXORShift64Star()
+	bench.Append(b)
+
+	b = BenchEricLagergrenXORShift1024Star()
+	bench.Append(b)
+
+	b = BenchLazyBeaverXORShift1024Star()
+	bench.Append(b)
+
+	b = BenchEricLagergrenXORShift128Plus()
+	bench.Append(b)
+
+	b = BenchLazyBeaverXORShift128Plus()
+	bench.Append(b)
+
+	b = BenchDGryskiGoXORoShiRo()
 	bench.Append(b)
 
 	fmt.Println("")

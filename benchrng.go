@@ -11,6 +11,8 @@ import (
 	"github.com/MichaelTJones/pcg"
 	mt64b "github.com/bszcz/mt19937_64"
 	pcgr "github.com/dgryski/go-pcgr"
+	xoro "github.com/dgryski/go-xoroshiro"
+	lazy "github.com/lazybeaver/xorshift"
 	"github.com/mohae/benchutil"
 	mt64s "github.com/seehuhn/mt19937"
 )
@@ -34,7 +36,7 @@ func BenchCryptoRand() benchutil.Bench {
 
 func MathRand(b *testing.B) {
 	b.StopTimer()
-	m.Seed(benchutil.SeedVal())
+	m.Seed(benchutil.Seed())
 	var n int64
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -53,7 +55,7 @@ func DgryskiGoPCGR(b *testing.B) {
 	b.StopTimer()
 	var n int64
 	var rnd pcgr.Rand
-	rnd.Seed(benchutil.SeedVal())
+	rnd.Seed(benchutil.Seed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -63,7 +65,7 @@ func DgryskiGoPCGR(b *testing.B) {
 
 func BenchDgryskiGoPCGR() benchutil.Bench {
 	bench := benchutil.NewBench("dgryski/go-pcgr")
-	bench.Group = "pcg"
+	bench.Group = "pcg int63"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(DgryskiGoPCGR))
 	return bench
 }
@@ -72,7 +74,7 @@ func MichaelTJonesPCG(b *testing.B) {
 	b.StopTimer()
 	var n uint64
 	rnd := pcg.NewPCG64()
-	rnd.Seed(uint64(benchutil.SeedVal()), uint64(benchutil.SeedVal()), uint64(benchutil.SeedVal()), uint64(benchutil.SeedVal()))
+	rnd.Seed(uint64(benchutil.Seed()), uint64(benchutil.Seed()), uint64(benchutil.Seed()), uint64(benchutil.Seed()))
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Random()
@@ -82,7 +84,7 @@ func MichaelTJonesPCG(b *testing.B) {
 
 func BenchMichaelTJonesPCG() benchutil.Bench {
 	bench := benchutil.NewBench("MichaelTJones/pcg")
-	bench.Group = "pcg"
+	bench.Group = "pcg int64"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MichaelTJonesPCG))
 	return bench
 }
@@ -91,7 +93,7 @@ func BszczMT64(b *testing.B) {
 	b.StopTimer()
 	var n int64
 	rnd := mt64b.New()
-	rnd.Seed(benchutil.SeedVal())
+	rnd.Seed(benchutil.Seed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -101,7 +103,7 @@ func BszczMT64(b *testing.B) {
 
 func BenchBszczMT64() benchutil.Bench {
 	bench := benchutil.NewBench("bszcz/mt19937_64")
-	bench.Group = "mersenne twister"
+	bench.Group = "mersenne twister: 64"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(BszczMT64))
 	return bench
 }
@@ -109,7 +111,7 @@ func BenchBszczMT64() benchutil.Bench {
 func EricLagergrenMT64(b *testing.B) {
 	b.StopTimer()
 	var n int64
-	rnd := mt64e.NewMersenne(benchutil.SeedVal())
+	rnd := mt64e.NewMersenne(benchutil.Seed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -119,7 +121,7 @@ func EricLagergrenMT64(b *testing.B) {
 
 func BenchEricLagergrenMT64() benchutil.Bench {
 	bench := benchutil.NewBench("EricLagergren/go-prng/mersenne_twister_64")
-	bench.Group = "mersenne twister"
+	bench.Group = "mersenne twister: 64"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(EricLagergrenMT64))
 	return bench
 }
@@ -128,7 +130,7 @@ func SeehuhnMT64(b *testing.B) {
 	b.StopTimer()
 	var n int64
 	rnd := mt64s.New()
-	rnd.Seed(benchutil.SeedVal())
+	rnd.Seed(benchutil.Seed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -138,15 +140,15 @@ func SeehuhnMT64(b *testing.B) {
 
 func BenchSeehuhnMT64() benchutil.Bench {
 	bench := benchutil.NewBench("seehuhn/mt19937")
-	bench.Group = "mersenne twister"
+	bench.Group = "mersenne twister: 64"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(SeehuhnMT64))
 	return bench
 }
 
-func EricLagergrenXORShift(b *testing.B) {
+func EricLagergrenXORShift64Star(b *testing.B) {
 	b.StopTimer()
 	var n uint64
-	var rnd xorshift.Shift1024Star
+	var rnd xorshift.Shift64Star
 	rnd.Seed()
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -155,9 +157,120 @@ func EricLagergrenXORShift(b *testing.B) {
 	_ = n
 }
 
-func BenchEricLagergrenXORShift() benchutil.Bench {
+func BenchEricLagergrenXORShift64Star() benchutil.Bench {
 	bench := benchutil.NewBench("EricLagergren/go-prng/xorshift")
-	bench.Group = "xorshift"
-	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(EricLagergrenXORShift))
+	bench.Group = "xorshift* 64"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(EricLagergrenXORShift64Star))
 	return bench
+}
+
+func LazyBeaverXORShift64Star(b *testing.B) {
+	b.StopTimer()
+	var n uint64
+	var rnd = lazy.NewXorShift64Star(uint64(benchutil.Seed()))
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = rnd.Next()
+	}
+	_ = n
+}
+
+func BenchLazyBeaverXORShift64Star() benchutil.Bench {
+	bench := benchutil.NewBench("lazybeaver/xorshift")
+	bench.Group = "xorshift* 64"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(LazyBeaverXORShift64Star))
+	return bench
+}
+
+func EricLagergrenXORShift1024Star(b *testing.B) {
+	b.StopTimer()
+	var n uint64
+	var rnd xorshift.Shift1024Star
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = rnd.Next()
+	}
+	_ = n
+}
+
+func BenchEricLagergrenXORShift1024Star() benchutil.Bench {
+	bench := benchutil.NewBench("EricLagergren/go-prng/xorshift")
+	bench.Group = "xorshift* 1024"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(EricLagergrenXORShift1024Star))
+	return bench
+}
+
+func LazyBeaverXORShift1024Star(b *testing.B) {
+	b.StopTimer()
+	var n uint64
+	rnd := lazy.NewXorShift1024Star(uint64(benchutil.Seed()))
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = rnd.Next()
+	}
+	_ = n
+}
+
+func BenchLazyBeaverXORShift1024Star() benchutil.Bench {
+	bench := benchutil.NewBench("lazybeaver/xorshift")
+	bench.Group = "xorshift* 1024"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(LazyBeaverXORShift1024Star))
+	return bench
+}
+
+func EricLagergrenXORShift128Plus(b *testing.B) {
+	b.StopTimer()
+	var n uint64
+	var rnd xorshift.Shift128Plus
+	rnd.Seed()
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = rnd.Next()
+	}
+	_ = n
+}
+
+func BenchEricLagergrenXORShift128Plus() benchutil.Bench {
+	bench := benchutil.NewBench("EricLagergren/go-prng/xorshift")
+	bench.Group = "xorshift+ 128"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(EricLagergrenXORShift128Plus))
+	return bench
+}
+
+func LazyBeaverXORShift128Plus(b *testing.B) {
+	b.StopTimer()
+	var n uint64
+	rnd := lazy.NewXorShift128Plus(uint64(benchutil.Seed()))
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = rnd.Next()
+	}
+	_ = n
+}
+
+func BenchLazyBeaverXORShift128Plus() benchutil.Bench {
+	bench := benchutil.NewBench("lazybeaver/xorshift")
+	bench.Group = "xorshift+ 128"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(LazyBeaverXORShift128Plus))
+	return bench
+}
+
+func DGryskiGoXORoShiRo(b *testing.B) {
+	b.StopTimer()
+	var n int64
+	var s xoro.State
+	s.Seed(benchutil.Seed())
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = s.Int63()
+	}
+	_ = n
+}
+
+func BenchDGryskiGoXORoShiRo() benchutil.Bench {
+	bench := benchutil.NewBench("dgrysiki/go-xoroshiro")
+	bench.Group = "xoroshiro"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(DGryskiGoXORoShiRo))
+	return bench
+
 }
