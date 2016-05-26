@@ -55,6 +55,10 @@ func main() {
 		bench = benchutil.NewStringBench(w)
 	}
 
+	bench.SetGroupColumnHeader("rng family")
+	bench.SetSubGroupColumnHeader("datatype")
+	bench.SetNameColumnHeader("package")
+	bench.SetDescColumnHeader("func call")
 	b := BenchMathRand()
 	bench.Append(b)
 
@@ -96,7 +100,6 @@ func main() {
 
 	b = BenchDGryskiGoXORoShiRo()
 	bench.Append(b)
-
 	fmt.Println("")
 	fmt.Println("generating output...")
 	err = bench.Out()
