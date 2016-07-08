@@ -13,8 +13,11 @@ const maxInt64 = 1<<63 - 1
 
 // flags
 var (
-	output string
-	format string
+	output         string
+	format         string
+	section        bool
+	sectionHeaders bool
+	systemInfo     bool
 )
 
 func init() {
@@ -22,6 +25,12 @@ func init() {
 	flag.StringVar(&output, "o", "stdout", "output destination (short)")
 	flag.StringVar(&format, "format", "txt", "format of output")
 	flag.StringVar(&format, "f", "txt", "format of output")
+	flag.BoolVar(&section, "sections", false, "don't separate groups of tests into sections")
+	flag.BoolVar(&section, "s", false, "don't separate groups of tests into sections")
+	flag.BoolVar(&sectionHeaders, "sectionheader", false, "if there are sections, add a section header row")
+	flag.BoolVar(&sectionHeaders, "h", false, "if there are sections, add a section header row")
+	flag.BoolVar(&systemInfo, "sysinfo", false, "add the system information to the output")
+	flag.BoolVar(&systemInfo, "i", false, "add the system information to the output")
 }
 
 func main() {
@@ -55,6 +64,9 @@ func main() {
 		bench = benchutil.NewStringBench(w)
 	}
 
+	bench.SectionPerGroup(section)
+	bench.SectionHeaders(sectionHeaders)
+	bench.IncludeSystemInfo(systemInfo)
 	bench.SetGroupColumnHeader("rng family")
 	bench.SetSubGroupColumnHeader("datatype")
 	bench.SetNameColumnHeader("package")
