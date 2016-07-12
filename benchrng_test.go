@@ -28,7 +28,7 @@ func BenchmarkCryptoRand(b *testing.B) {
 
 func BenchmarkMathRand(b *testing.B) {
 	b.StopTimer()
-	m.Seed(benchutil.SeedVal())
+	m.Seed(benchutil.NewSeed())
 	var n int64
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -41,7 +41,7 @@ func BenchmarkDgryskiGoPCGR(b *testing.B) {
 	b.StopTimer()
 	var n int64
 	var rnd pcgr.Rand
-	rnd.Seed(benchutil.SeedVal())
+	rnd.Seed(benchutil.NewSeed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -53,7 +53,7 @@ func BenchmarkMichaelTJonesPCG(b *testing.B) {
 	b.StopTimer()
 	var n uint64
 	rnd := pcg.NewPCG64()
-	rnd.Seed(uint64(benchutil.SeedVal()), uint64(benchutil.SeedVal()), uint64(benchutil.SeedVal()), uint64(benchutil.SeedVal()))
+	rnd.Seed(uint64(benchutil.NewSeed()), uint64(benchutil.NewSeed()), uint64(benchutil.NewSeed()), uint64(benchutil.NewSeed()))
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Random()
@@ -65,7 +65,7 @@ func BenchmarkBszczMT64(b *testing.B) {
 	b.StopTimer()
 	var n int64
 	rnd := mt64b.New()
-	rnd.Seed(benchutil.SeedVal())
+	rnd.Seed(benchutil.NewSeed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -76,7 +76,7 @@ func BenchmarkBszczMT64(b *testing.B) {
 func BenchmarkEricLagergrenMT64(b *testing.B) {
 	b.StopTimer()
 	var n int64
-	rnd := mt64e.NewMersenne(benchutil.SeedVal())
+	rnd := mt64e.NewMersenne(benchutil.NewSeed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -88,7 +88,7 @@ func BenchmarkSeehuhnMT64(b *testing.B) {
 	b.StopTimer()
 	var n int64
 	rnd := mt64s.New()
-	rnd.Seed(benchutil.SeedVal())
+	rnd.Seed(benchutil.NewSeed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()

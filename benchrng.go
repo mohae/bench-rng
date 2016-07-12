@@ -39,7 +39,7 @@ func BenchCryptoRand() benchutil.Bench {
 
 func MathRand(b *testing.B) {
 	b.StopTimer()
-	m.Seed(benchutil.Seed())
+	m.Seed(benchutil.NewSeed())
 	var n int64
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -61,7 +61,7 @@ func BszczMT64(b *testing.B) {
 	b.StopTimer()
 	var n int64
 	rnd := mt64b.New()
-	rnd.Seed(benchutil.Seed())
+	rnd.Seed(benchutil.NewSeed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -81,7 +81,7 @@ func BenchBszczMT64() benchutil.Bench {
 func EricLagergrenMT64(b *testing.B) {
 	b.StopTimer()
 	var n int64
-	rnd := mt64e.NewMersenne(benchutil.Seed())
+	rnd := mt64e.NewMersenne(benchutil.NewSeed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -102,7 +102,7 @@ func SeehuhnMT64(b *testing.B) {
 	b.StopTimer()
 	var n int64
 	rnd := mt64s.New()
-	rnd.Seed(benchutil.Seed())
+	rnd.Seed(benchutil.NewSeed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -123,7 +123,7 @@ func DgryskiGoPCGR(b *testing.B) {
 	b.StopTimer()
 	var n int64
 	var rnd pcgr.Rand
-	rnd.Seed(benchutil.Seed())
+	rnd.Seed(benchutil.NewSeed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Int63()
@@ -144,7 +144,7 @@ func MichaelTJonesPCG(b *testing.B) {
 	b.StopTimer()
 	var n uint64
 	rnd := pcg.NewPCG64()
-	rnd.Seed(uint64(benchutil.Seed()), uint64(benchutil.Seed()), uint64(benchutil.Seed()), uint64(benchutil.Seed()))
+	rnd.Seed(uint64(benchutil.NewSeed()), uint64(benchutil.NewSeed()), uint64(benchutil.NewSeed()), uint64(benchutil.NewSeed()))
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Random()
@@ -185,7 +185,7 @@ func BenchEricLagergrenXORShift128Plus() benchutil.Bench {
 func LazyBeaverXORShift128Plus(b *testing.B) {
 	b.StopTimer()
 	var n uint64
-	rnd := lazy.NewXorShift128Plus(uint64(benchutil.Seed()))
+	rnd := lazy.NewXorShift128Plus(uint64(benchutil.NewSeed()))
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Next()
@@ -226,7 +226,7 @@ func BenchEricLagergrenXORShift64Star() benchutil.Bench {
 func LazyBeaverXORShift64Star(b *testing.B) {
 	b.StopTimer()
 	var n uint64
-	var rnd = lazy.NewXorShift64Star(uint64(benchutil.Seed()))
+	var rnd = lazy.NewXorShift64Star(uint64(benchutil.NewSeed()))
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Next()
@@ -266,7 +266,7 @@ func BenchEricLagergrenXORShift1024Star() benchutil.Bench {
 func LazyBeaverXORShift1024Star(b *testing.B) {
 	b.StopTimer()
 	var n uint64
-	rnd := lazy.NewXorShift1024Star(uint64(benchutil.Seed()))
+	rnd := lazy.NewXorShift1024Star(uint64(benchutil.NewSeed()))
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = rnd.Next()
@@ -287,7 +287,7 @@ func DGryskiGoXORoShiRo(b *testing.B) {
 	b.StopTimer()
 	var n int64
 	var s xoro.State
-	s.Seed(benchutil.Seed())
+	s.Seed(benchutil.NewSeed())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		n = s.Int63()
