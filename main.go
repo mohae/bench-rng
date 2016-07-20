@@ -18,6 +18,7 @@ var (
 	section        bool
 	sectionHeaders bool
 	systemInfo     bool
+	nameSections   bool
 )
 
 func init() {
@@ -25,6 +26,8 @@ func init() {
 	flag.StringVar(&output, "o", "stdout", "output destination (short)")
 	flag.StringVar(&format, "format", "txt", "format of output")
 	flag.StringVar(&format, "f", "txt", "format of output")
+	flag.BoolVar(&nameSections, "namesections", false, "use group as section name: some restrictions apply")
+	flag.BoolVar(&nameSections, "n", false, "use group as section name: some restrictions apply")
 	flag.BoolVar(&section, "sections", false, "don't separate groups of tests into sections")
 	flag.BoolVar(&section, "s", false, "don't separate groups of tests into sections")
 	flag.BoolVar(&sectionHeaders, "sectionheader", false, "if there are sections, add a section header row")
@@ -67,6 +70,7 @@ func main() {
 	bench.SectionPerGroup(section)
 	bench.SectionHeaders(sectionHeaders)
 	bench.IncludeSystemInfo(systemInfo)
+	bench.NameSections(nameSections)
 	bench.SetGroupColumnHeader("rng family")
 	bench.SetSubGroupColumnHeader("datatype")
 	bench.SetNameColumnHeader("package")

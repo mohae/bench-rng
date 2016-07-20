@@ -30,7 +30,7 @@ func CryptoRand(b *testing.B) {
 
 func BenchCryptoRand() benchutil.Bench {
 	bench := benchutil.NewBench("crypto/rand")
-	bench.Group = "csprng"
+	bench.Group = "stdlib"
 	bench.Desc = "Int()"
 	bench.SubGroup = "int64"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(CryptoRand))
@@ -50,7 +50,7 @@ func MathRand(b *testing.B) {
 
 func BenchMathRand() benchutil.Bench {
 	bench := benchutil.NewBench("math/rand")
-	bench.Group = "prng"
+	bench.Group = "stdlib"
 	bench.SubGroup = "int64"
 	bench.Desc = "Int63()"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MathRand))
