@@ -54,6 +54,8 @@ pcg|int64|MichaelTJones/pcg|Random()|200000000|7|0|0
 ### XOR Shift
 Marsaglia, George (July 2003) "Xorshift RNGs", _Journal of Statistical Software_ __8__ (14)  This includes variants of `xorshift`.  
 
+Sebastiano Vigna: [xoroshiro](http://xoroshiro.di.unimi.it/)
+
 * [github.com/EricLagergren/go-prng/xorshift](https://github.com/EricLagergren/go-prng/xorshift)
 * [github.com/lazybeaver/xorshift](https://github.com/lazybeaver/xorshift)
 * [github.com/dgryski/go-xoroshiro](https://github.com/dgryski/go-xoroshiro)
