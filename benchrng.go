@@ -57,6 +57,46 @@ func BenchMathRand() benchutil.Bench {
 	return bench
 }
 
+func MathRand63n(b *testing.B) {
+	b.StopTimer()
+	m.Seed(benchutil.NewSeed())
+	var n int64
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = m.Int63n(100)
+	}
+	_ = n
+}
+
+func BenchMathRand63n() benchutil.Bench {
+	bench := benchutil.NewBench("math/rand")
+	bench.Group = "stdlib"
+	bench.SubGroup = "int64"
+	bench.Desc = "Int63n()"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MathRand63n))
+	return bench
+}
+
+func MathRand63n2(b *testing.B) {
+	b.StopTimer()
+	m.Seed(benchutil.NewSeed())
+	var n int64
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = m.Int63n(64)
+	}
+	_ = n
+}
+
+func BenchMathRand63n2() benchutil.Bench {
+	bench := benchutil.NewBench("math/rand")
+	bench.Group = "stdlib"
+	bench.SubGroup = "int64"
+	bench.Desc = "Int63n() (power of 2)"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MathRand63n2))
+	return bench
+}
+
 func BszczMT64(b *testing.B) {
 	b.StopTimer()
 	var n int64
@@ -95,6 +135,26 @@ func BenchEricLagergrenMT64() benchutil.Bench {
 	bench.SubGroup = "int64"
 	bench.Desc = "Int63()"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(EricLagergrenMT64))
+	return bench
+}
+
+func EricLagergrenMT64IntN(b *testing.B) {
+	b.StopTimer()
+	var n uint64
+	rnd := mt64e.NewMersenne(benchutil.NewSeed())
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = rnd.IntN(100)
+	}
+	_ = n
+}
+
+func BenchEricLagergrenMT64IntN() benchutil.Bench {
+	bench := benchutil.NewBench("EricLagergren/go-prng/mersenne_twister_64")
+	bench.Group = "mersenne twister"
+	bench.SubGroup = "uint64"
+	bench.Desc = "IntN()"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(EricLagergrenMT64IntN))
 	return bench
 }
 
@@ -140,6 +200,27 @@ func BenchDgryskiGoPCGR() benchutil.Bench {
 	return bench
 }
 
+func DgryskiGoPCGRBound(b *testing.B) {
+	b.StopTimer()
+	var n uint32
+	var rnd pcgr.Rand
+	rnd.Seed(benchutil.NewSeed())
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = rnd.Bound(100)
+	}
+	_ = n
+}
+
+func BenchDgryskiGoPCGRBound() benchutil.Bench {
+	bench := benchutil.NewBench("dgryski/go-pcgr")
+	bench.Group = "pcg"
+	bench.SubGroup = "uint32"
+	bench.Desc = "Bound()"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(DgryskiGoPCGRBound))
+	return bench
+}
+
 func MichaelTJonesPCG(b *testing.B) {
 	b.StopTimer()
 	var n uint64
@@ -155,9 +236,30 @@ func MichaelTJonesPCG(b *testing.B) {
 func BenchMichaelTJonesPCG() benchutil.Bench {
 	bench := benchutil.NewBench("MichaelTJones/pcg")
 	bench.Group = "pcg"
-	bench.SubGroup = "int64"
+	bench.SubGroup = "uint64"
 	bench.Desc = "Random()"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MichaelTJonesPCG))
+	return bench
+}
+
+func MichaelTJonesPCGBounded(b *testing.B) {
+	b.StopTimer()
+	var n uint64
+	rnd := pcg.NewPCG64()
+	rnd.Seed(uint64(benchutil.NewSeed()), uint64(benchutil.NewSeed()), uint64(benchutil.NewSeed()), uint64(benchutil.NewSeed()))
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = rnd.Bounded(100)
+	}
+	_ = n
+}
+
+func BenchMichaelTJonesPCGBounded() benchutil.Bench {
+	bench := benchutil.NewBench("MichaelTJones/pcg")
+	bench.Group = "pcg"
+	bench.SubGroup = "uint64"
+	bench.Desc = "Bounded()"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MichaelTJonesPCGBounded))
 	return bench
 }
 

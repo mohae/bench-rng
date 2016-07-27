@@ -78,19 +78,34 @@ func main() {
 	b := BenchMathRand()
 	bench.Append(b)
 
+	b = BenchMathRand63n()
+	bench.Append(b)
+
+	b = BenchMathRand63n2()
+	bench.Append(b)
+
 	b = BenchCryptoRand()
 	bench.Append(b)
 
 	b = BenchDgryskiGoPCGR()
 	bench.Append(b)
 
+	b = BenchDgryskiGoPCGRBound()
+	bench.Append(b)
+
 	b = BenchMichaelTJonesPCG()
+	bench.Append(b)
+
+	b = BenchMichaelTJonesPCGBounded()
 	bench.Append(b)
 
 	b = BenchBszczMT64()
 	bench.Append(b)
 
 	b = BenchEricLagergrenMT64()
+	bench.Append(b)
+
+	b = BenchEricLagergrenMT64IntN()
 	bench.Append(b)
 
 	b = BenchSeehuhnMT64()
