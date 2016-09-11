@@ -72,7 +72,7 @@ func BenchMathRand63n() benchutil.Bench {
 	bench := benchutil.NewBench("math/rand")
 	bench.Group = "stdlib"
 	bench.SubGroup = "int64"
-	bench.Desc = "Int63n()"
+	bench.Desc = "Int63n(100)"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MathRand63n))
 	return bench
 }
@@ -92,7 +92,7 @@ func BenchMathRand63n2() benchutil.Bench {
 	bench := benchutil.NewBench("math/rand")
 	bench.Group = "stdlib"
 	bench.SubGroup = "int64"
-	bench.Desc = "Int63n() (power of 2)"
+	bench.Desc = "Int63n(128) (^2)"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MathRand63n2))
 	return bench
 }
@@ -153,7 +153,7 @@ func BenchEricLagergrenMT64IntN() benchutil.Bench {
 	bench := benchutil.NewBench("EricLagergren/go-prng/mersenne_twister_64")
 	bench.Group = "mersenne twister"
 	bench.SubGroup = "uint64"
-	bench.Desc = "IntN()"
+	bench.Desc = "IntN(100)"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(EricLagergrenMT64IntN))
 	return bench
 }
@@ -258,7 +258,7 @@ func BenchMichaelTJonesPCGBounded() benchutil.Bench {
 	bench := benchutil.NewBench("MichaelTJones/pcg")
 	bench.Group = "pcg"
 	bench.SubGroup = "uint64"
-	bench.Desc = "Bounded()"
+	bench.Desc = "Bounded(100)"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(MichaelTJonesPCGBounded))
 	return bench
 }
@@ -403,5 +403,47 @@ func BenchDGryskiGoXORoShiRo() benchutil.Bench {
 	bench.SubGroup = "int64"
 	bench.Desc = "xoroshiro.Int63()"
 	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(DGryskiGoXORoShiRo))
+	return bench
+}
+
+func DGryskiGoXORoShiRoN(b *testing.B) {
+	b.StopTimer()
+	var n int64
+	var s xoro.State
+	s.Seed(benchutil.NewSeed())
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = s.Int63n(100)
+	}
+	_ = n
+}
+
+func BenchDGryskiGoXORoShiRoN() benchutil.Bench {
+	bench := benchutil.NewBench("dgryski/go-xoroshiro")
+	bench.Group = "xoroshiro"
+	bench.SubGroup = "int64"
+	bench.Desc = "xoroshiro.Int63n(100)"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(DGryskiGoXORoShiRoN))
+	return bench
+}
+
+func DGryskiGoXORoShiRoN2(b *testing.B) {
+	b.StopTimer()
+	var n int64
+	var s xoro.State
+	s.Seed(benchutil.NewSeed())
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		n = s.Int63n(128)
+	}
+	_ = n
+}
+
+func BenchDGryskiGoXORoShiRoN2() benchutil.Bench {
+	bench := benchutil.NewBench("dgryski/go-xoroshiro")
+	bench.Group = "xoroshiro"
+	bench.SubGroup = "int64"
+	bench.Desc = "xoroshiro.Int63n(128) (^2)"
+	bench.Result = benchutil.ResultFromBenchmarkResult(testing.Benchmark(DGryskiGoXORoShiRoN2))
 	return bench
 }

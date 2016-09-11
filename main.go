@@ -78,14 +78,11 @@ func main() {
 	b := BenchMathRand()
 	bench.Append(b)
 
-	b = BenchMathRand63n()
-	bench.Append(b)
+	bench.Append(BenchMathRand63n())
 
-	b = BenchMathRand63n2()
-	bench.Append(b)
+	bench.Append(BenchMathRand63n2())
 
-	b = BenchCryptoRand()
-	bench.Append(b)
+	bench.Append(BenchCryptoRand())
 
 	b = BenchDgryskiGoPCGR()
 	bench.Append(b)
@@ -131,6 +128,13 @@ func main() {
 
 	b = BenchDGryskiGoXORoShiRo()
 	bench.Append(b)
+
+	b = BenchDGryskiGoXORoShiRoN()
+	bench.Append(b)
+
+	b = BenchDGryskiGoXORoShiRoN2()
+	bench.Append(b)
+
 	fmt.Println("")
 	fmt.Println("generating output...")
 	err = bench.Out()
